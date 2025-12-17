@@ -222,7 +222,7 @@ export default function CalendarPage() {
             today ? 'bg-amg-50 border-amg-500 border-2' : 'bg-white'
           }`}
         >
-          <div className={`text-sm font-semibold mb-2 ${today ? 'text-amg-600' : 'text-midnight'}`}>
+          <div className={`text-sm font-semibold mb-2 ${today ? 'text-amg-600' : 'text-foreground'}`}>
             {day}
             {today && <span className="ml-1 text-xs">(Today)</span>}
           </div>
@@ -268,7 +268,7 @@ export default function CalendarPage() {
             today ? 'bg-amg-50 border-amg-500 border-2' : 'bg-white'
           }`}
         >
-          <div className={`text-center mb-3 ${today ? 'text-amg-600' : 'text-midnight'}`}>
+          <div className={`text-center mb-3 ${today ? 'text-amg-600' : 'text-foreground'}`}>
             <div className="text-xs font-medium">{dayName}</div>
             <div className={`text-2xl font-bold ${today ? 'text-amg-600' : ''}`}>
               {dayNumber}
@@ -299,7 +299,7 @@ export default function CalendarPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-midnight">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground">
             Editorial Calendar
           </h1>
           <p className="mt-2 text-lg text-muted-foreground">
@@ -344,7 +344,7 @@ export default function CalendarPage() {
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <span className="text-lg font-semibold text-midnight min-w-[200px] text-center">
+          <span className="text-lg font-semibold text-foreground min-w-[200px] text-center">
             {viewMode === 'month' ? monthName : `Week of ${weekDays[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`}
           </span>
           <Button
@@ -361,7 +361,7 @@ export default function CalendarPage() {
         <div className="lg:col-span-2">
           <Card className="border-2">
             <CardHeader>
-              <CardTitle className="text-midnight">
+              <CardTitle className="text-foreground">
                 {viewMode === 'month' ? 'Month Calendar' : 'Week Calendar'}
               </CardTitle>
               <CardDescription>
@@ -373,7 +373,7 @@ export default function CalendarPage() {
                 <div>
                   <div className="grid grid-cols-7 gap-0 mb-2">
                     {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                      <div key={day} className="text-center text-sm font-semibold text-midnight py-2 bg-gray-100">
+                      <div key={day} className="text-center text-sm font-semibold text-foreground py-2 bg-gray-100">
                         {day}
                       </div>
                     ))}
@@ -396,7 +396,7 @@ export default function CalendarPage() {
         <div>
           <Card className="border-2">
             <CardHeader>
-              <CardTitle className="text-midnight">Upcoming Posts</CardTitle>
+              <CardTitle className="text-foreground">Upcoming Posts</CardTitle>
               <CardDescription>
                 Next {upcomingPosts.length} scheduled content
               </CardDescription>
@@ -419,7 +419,7 @@ export default function CalendarPage() {
                             {post.platform}
                           </span>
                         </div>
-                        <p className="text-sm font-semibold text-midnight line-clamp-2">
+                        <p className="text-sm font-semibold text-foreground line-clamp-2">
                           {post.title}
                         </p>
                         <p className="text-xs text-arrow-600 mt-1">
@@ -462,14 +462,14 @@ export default function CalendarPage() {
 
           <Card className="border-2 mt-6">
             <CardHeader>
-              <CardTitle className="text-midnight text-sm">Platform Legend</CardTitle>
+              <CardTitle className="text-foreground text-sm">Platform Legend</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
                 {Object.entries(platformColors).map(([platform, color]) => (
                   <div key={platform} className="flex items-center gap-2">
                     <div className={`w-4 h-4 rounded ${color}`}></div>
-                    <span className="text-sm text-midnight">{platform}</span>
+                    <span className="text-sm text-foreground">{platform}</span>
                   </div>
                 ))}
               </div>
@@ -493,13 +493,13 @@ export default function CalendarPage() {
       }}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-midnight">
+            <DialogTitle className="text-foreground">
               {editingPost ? 'Edit Scheduled Post' : 'Schedule New Post'}
             </DialogTitle>
           </DialogHeader>
           <div className="py-4 space-y-4">
             <div>
-              <label className="text-sm font-medium text-midnight mb-1 block">
+              <label className="text-sm font-medium text-foreground mb-1 block">
                 Title *
               </label>
               <Input
@@ -510,7 +510,7 @@ export default function CalendarPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-midnight mb-1 block">
+              <label className="text-sm font-medium text-foreground mb-1 block">
                 Platform *
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -530,7 +530,7 @@ export default function CalendarPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-midnight mb-1 block">
+                <label className="text-sm font-medium text-foreground mb-1 block">
                   Date *
                 </label>
                 <Input
@@ -540,7 +540,7 @@ export default function CalendarPage() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-midnight mb-1 block">
+                <label className="text-sm font-medium text-foreground mb-1 block">
                   Time *
                 </label>
                 <Input
@@ -552,7 +552,7 @@ export default function CalendarPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-midnight mb-1 block">
+              <label className="text-sm font-medium text-foreground mb-1 block">
                 Content Type
               </label>
               <Input

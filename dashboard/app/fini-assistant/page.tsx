@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Bot, User } from 'lucide-react';
+import { Bot, User, Send } from 'lucide-react';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -15,6 +15,13 @@ const FiniAssistantPage = () => {
   const [prompt, setPrompt] = useState('');
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
 
   const handleSendMessage = async (message?: string) => {
     const currentMessage = message || prompt;
@@ -44,75 +51,133 @@ const FiniAssistantPage = () => {
       setChatHistory([...newHistory, { role: 'assistant', content: data.response }]);
     } catch (error) {
       console.error(error);
-      setChatHistory([...newHistory, { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' }]);
+      setChatHistory([...newHistory, { role: 'assistant', content: 'Desculpe, ocorreu um erro. Por favor tente novamente.' }]);
     } finally {
       setIsLoading(false);
     }
   };
 
   const examplePrompts = [
-    "Quais são os modelos AMG disponíveis?",
-    "Qual a autonomia do novo EQA?",
-    "Cria uma copy para um post de Instagram sobre o novo Classe C.",
-    "Quais são as diferenças entre o GLC e o GLE?",
+    "Quais modelos AMG estão disponíveis?",
+    "Qual a autonomia do EQA?",
+    "Cria copy para Instagram do Classe C",
+    "Diferenças entre GLC e GLE?",
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-4 md:p-8 bg-gray-100 dark:bg-gray-900 h-full">
-      <div className="lg:col-span-2 flex flex-col h-full">
-        <Card className="flex-grow flex flex-col">
-          <CardHeader>
-            <CardTitle className="text-2xl">Chat</CardTitle>
+    <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-8rem)]">
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        <Card className="flex-1 flex flex-col overflow-hidden">
+          <CardHeader className="flex-shrink-0 border-b border-border">
+            <CardTitle>Chat</CardTitle>
             <CardDescription>Converse com o Fini Assistant</CardDescription>
           </CardHeader>
-          <CardContent className="flex-grow flex flex-col">
-            <div className="flex-grow overflow-y-auto mb-4 p-4 border rounded-md h-[60vh]">
+          <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
+            {/* Messages Container */}
+            <div
+              ref={chatContainerRef}
+              className="flex-1 overflow-y-auto p-4 space-y-4"
+            >
+              {chatHistory.length === 0 && (
+                <div className="flex items-center justify-center h-full text-muted-foreground">
+                  <p>Comece uma conversa...</p>
+                </div>
+              )}
               {chatHistory.map((message, index) => (
-                <div key={index} className={`flex items-start gap-3 my-4 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  {message.role === 'assistant' && <Bot className="w-6 h-6 text-gray-500" />}
-                  <div className={`p-3 rounded-lg max-w-lg ${message.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-800'}`}>
-                    <p className="text-sm">{message.content}</p>
+                <div
+                  key={index}
+                  className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  {message.role === 'assistant' && (
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amg/20 flex items-center justify-center">
+                      <Bot className="w-4 h-4 text-amg" />
+                    </div>
+                  )}
+                  <div
+                    className={`max-w-[80%] p-3 rounded-lg break-words ${
+                      message.role === 'user'
+                        ? 'bg-amg text-white'
+                        : 'bg-secondary text-secondary-foreground'
+                    }`}
+                  >
+                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   </div>
-                  {message.role === 'user' && <User className="w-6 h-6 text-gray-500" />}
+                  {message.role === 'user' && (
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                      <User className="w-4 h-4 text-muted-foreground" />
+                    </div>
+                  )}
                 </div>
               ))}
               {isLoading && (
-                <div className="flex items-start gap-3 my-4 justify-start">
-                  <Bot className="w-6 h-6 text-gray-500" />
-                  <div className="p-3 rounded-lg bg-gray-200 dark:bg-gray-800 animate-pulse">
-                    <p className="text-sm">...</p>
+                <div className="flex items-start gap-3 justify-start">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amg/20 flex items-center justify-center">
+                    <Bot className="w-4 h-4 text-amg" />
+                  </div>
+                  <div className="p-3 rounded-lg bg-secondary animate-pulse">
+                    <div className="flex gap-1">
+                      <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                      <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                      <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
-            <div className="flex">
-              <Input
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder="Pergunte qualquer coisa sobre a Mercedes-Benz..."
-                className="flex-grow"
-              />
-              <Button onClick={() => handleSendMessage()} className="ml-2">
-                Enviar
-              </Button>
+
+            {/* Input Area */}
+            <div className="flex-shrink-0 p-4 border-t border-border">
+              <div className="flex gap-2">
+                <Input
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+                  placeholder="Pergunte algo sobre Mercedes-Benz..."
+                  className="flex-1"
+                  disabled={isLoading}
+                />
+                <Button
+                  onClick={() => handleSendMessage()}
+                  disabled={isLoading || !prompt.trim()}
+                  className="bg-amg hover:bg-amg-600"
+                >
+                  <Send className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="lg:col-span-1">
+      {/* Sidebar */}
+      <div className="w-full lg:w-80 flex-shrink-0">
         <Card>
           <CardHeader>
-            <CardTitle>Fini Assistant</CardTitle>
-            <CardDescription>O seu especialista em Mercedes-Benz. Peça para criar copy, obter informações de modelos, ou qualquer outra coisa que precise.</CardDescription>
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-full bg-amg/20 flex items-center justify-center">
+                <Bot className="w-5 h-5 text-amg" />
+              </div>
+              <div>
+                <CardTitle>Fini Assistant</CardTitle>
+              </div>
+            </div>
+            <CardDescription className="mt-2">
+              O seu especialista em Mercedes-Benz. Peça para criar copy, obter informações de modelos, ou qualquer outra coisa.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <h3 className="font-semibold mb-2">Experimente perguntar:</h3>
+            <h3 className="font-semibold text-sm mb-3 text-muted-foreground">Experimente perguntar:</h3>
             <div className="space-y-2">
               {examplePrompts.map((example, index) => (
-                <Button key={index} variant="outline" className="w-full text-left justify-start" onClick={() => handleSendMessage(example)}>
-                  {example}
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="w-full text-left justify-start h-auto py-2 px-3 text-sm whitespace-normal"
+                  onClick={() => handleSendMessage(example)}
+                  disabled={isLoading}
+                >
+                  <span className="line-clamp-2">{example}</span>
                 </Button>
               ))}
             </div>

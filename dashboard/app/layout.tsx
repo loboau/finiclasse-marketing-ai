@@ -1,11 +1,13 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Poppins } from "next/font/google"
 import "./globals.css"
-import { Sidebar } from "@/components/sidebar"
+import { LayoutClient } from "@/components/layout-client"
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -19,16 +21,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="antialiased">
-        <div className="flex h-screen overflow-hidden bg-background">
-          <Sidebar />
-          <main className="flex-1 overflow-y-auto">
-            <div className="container mx-auto p-6 lg:p-8">
-              {children}
-            </div>
-          </main>
-        </div>
+    <html lang="en" className={`${poppins.variable} dark`}>
+      <body className="font-sans antialiased bg-background text-foreground">
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   )

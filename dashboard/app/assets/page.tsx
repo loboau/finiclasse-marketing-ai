@@ -705,7 +705,7 @@ export default function AssetsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-midnight">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
             Media Assets
           </h1>
           <p className="mt-1 text-muted-foreground">
@@ -790,7 +790,7 @@ export default function AssetsPage() {
                     type="button"
                     onClick={() => setCurrentPath(crumb.path)}
                     className={`hover:text-amg transition-colors ${
-                      index === arr.length - 1 ? 'font-medium text-midnight' : 'text-muted-foreground'
+                      index === arr.length - 1 ? 'font-medium text-foreground' : 'text-muted-foreground'
                     }`}
                   >
                     {crumb.name}

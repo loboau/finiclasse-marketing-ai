@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ["var(--font-poppins)", "Poppins", "system-ui", "sans-serif"],
+        sans: ["var(--font-poppins)", "Poppins", "system-ui", "sans-serif"],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -116,24 +120,16 @@ const config: Config = {
           800: "#00403E",
           900: "#00201F",
         },
-        "petronas-blue": {
-          DEFAULT: "#00A19B",
-          50: "#E0F7F6",
-          100: "#B3ECE9",
-          200: "#80E2DD",
-          300: "#4DD7D1",
-          400: "#1ACCBE",
-          500: "#00A19B",
-          600: "#00817C",
-          700: "#00615D",
-          800: "#00403E",
-          900: "#00201F",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        'card': '0 2px 8px 0 rgb(0 0 0 / 0.3)',
+        'card-hover': '0 8px 24px 0 rgb(0 0 0 / 0.4)',
+        'premium': '0 0 30px rgb(0 161 155 / 0.3)',
       },
     },
   },

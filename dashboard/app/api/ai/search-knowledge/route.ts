@@ -1,14 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAgentById, buildSystemPrompt } from '@/lib/agents';
-import { generateCopy } from '@/lib/ai';
+import { askFiniAssistant } from '@/lib/ai';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { query } = body;
 
-    if (!query) {
-      return NextResponse.json({ error: 'Query is required' }, { status: 400 });
+    // Validate query
+    if (!query || typeof query !== 'string') {
+      return NextResponse.json({ error: 'Query is required and must be a string' }, { status: 400 });
+    }
+
+    if (query.trim().length === 0) {
+      return NextResponse.json({ error: 'Query cannot be empty' }, { status: 400 });
+    }
+
+    if (query.length > 2000) {
+      return NextResponse.json({ error: 'Query too long (max 2000 characters)' }, { status: 400 });
     }
 
     const encyclopedia = getAgentById('product-encyclopedia');
@@ -16,18 +25,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Product encyclopedia agent not found' }, { status: 500 });
     }
 
+    const systemPrompt = buildSystemPrompt([encyclopedia]);
     const userPrompt = `Responde à seguinte questão sobre produtos Mercedes-Benz: "${query}"`;
 
-    const systemPrompt = buildSystemPrompt([encyclopedia]);
-    
-    const result = await generateCopy({
-        platform: 'instagram_feed', // dummy value
-        contentType: 'novo_modelo', // dummy value
-        provider: 'groq',
-        additionalContext: userPrompt,
-    });
+    const answer = await askFiniAssistant(
+      systemPrompt,
+      userPrompt,
+      'groq'
+    );
 
-    return NextResponse.json({ answer: result.content.body });
+    return NextResponse.json({ answer });
 
   } catch (error) {
     console.error('Knowledge search error:', error);

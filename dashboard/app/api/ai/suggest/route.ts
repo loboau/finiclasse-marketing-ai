@@ -1,11 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAgentById, buildSystemPrompt } from '@/lib/agents';
-import { generateCopy } from '@/lib/ai';
+import { askFiniAssistant } from '@/lib/ai';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { step, userInput } = body;
+
+    // Validate step
+    if (!step || typeof step !== 'number') {
+      return NextResponse.json({ error: 'Step is required and must be a number' }, { status: 400 });
+    }
+
+    const allowedSteps = [2, 3, 4];
+    if (!allowedSteps.includes(step)) {
+      return NextResponse.json({ error: 'Invalid step. Allowed values: 2, 3, 4' }, { status: 400 });
+    }
+
+    // Validate userInput object
+    if (!userInput || typeof userInput !== 'object') {
+      return NextResponse.json({ error: 'userInput is required and must be an object' }, { status: 400 });
+    }
+
+    // Validate required fields per step
+    if (step === 2) {
+      if (!userInput.campaignName || typeof userInput.campaignName !== 'string' || userInput.campaignName.trim().length === 0) {
+        return NextResponse.json({ error: 'campaignName is required for step 2' }, { status: 400 });
+      }
+    }
+
+    if (step === 3) {
+      if (!userInput.campaignName || typeof userInput.campaignName !== 'string' || userInput.campaignName.trim().length === 0) {
+        return NextResponse.json({ error: 'campaignName is required for step 3' }, { status: 400 });
+      }
+      if (!userInput.objective || typeof userInput.objective !== 'string' || userInput.objective.trim().length === 0) {
+        return NextResponse.json({ error: 'objective is required for step 3' }, { status: 400 });
+      }
+    }
+
+    if (step === 4) {
+      if (!userInput.campaignName || typeof userInput.campaignName !== 'string' || userInput.campaignName.trim().length === 0) {
+        return NextResponse.json({ error: 'campaignName is required for step 4' }, { status: 400 });
+      }
+      if (!userInput.objective || typeof userInput.objective !== 'string' || userInput.objective.trim().length === 0) {
+        return NextResponse.json({ error: 'objective is required for step 4' }, { status: 400 });
+      }
+      if (!userInput.targetAudience || typeof userInput.targetAudience !== 'string' || userInput.targetAudience.trim().length === 0) {
+        return NextResponse.json({ error: 'targetAudience is required for step 4' }, { status: 400 });
+      }
+    }
 
     const strategist = getAgentById('campaign-strategist');
     if (!strategist) {
@@ -23,23 +66,17 @@ export async function POST(request: NextRequest) {
       case 4: // Key Message
         userPrompt = `Campanha: "${userInput.campaignName}", Objetivo: "${userInput.objective}", Público-alvo: "${userInput.targetAudience}". Sugere 3 mensagens-chave impactantes para esta campanha.`;
         break;
-      default:
-        return NextResponse.json({ error: 'Invalid step' }, { status: 400 });
     }
 
     const systemPrompt = buildSystemPrompt([strategist]);
-    
-    // Using the generateCopy function for now, but we might want a more generic "generate" function in the future
-    const result = await generateCopy({
-        platform: 'instagram_feed', // This is a dummy value, as generateCopy requires it
-        contentType: 'novo_modelo', // This is a dummy value, as generateCopy requires it
-        provider: 'groq',
-        additionalContext: userPrompt,
-    });
 
-    // The result from generateCopy is structured for copy, we might need to adjust this
-    // For now, let's assume the suggestions are in the body
-    return NextResponse.json({ suggestions: result.content.body });
+    const suggestions = await askFiniAssistant(
+      systemPrompt,
+      userPrompt,
+      'groq'
+    );
+
+    return NextResponse.json({ suggestions });
 
   } catch (error) {
     console.error('Suggestion generation error:', error);

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, Calendar, TrendingUp, Users, RefreshCw } from "lucide-react"
+import { FileText, Calendar, TrendingUp, Users, RefreshCw, Sparkles } from "lucide-react"
 
 interface Activity {
   id: string
@@ -37,15 +37,14 @@ export default function DashboardPage() {
   })
   const [activities, setActivities] = useState<Activity[]>([])
 
-  // Initialize activities from localStorage or create mock data
   useEffect(() => {
     const loadActivities = () => {
       const stored = localStorage.getItem('dashboard_activities')
       if (stored) {
         try {
           const parsed = JSON.parse(stored)
-          setActivities(parsed.slice(0, 5)) // Show only latest 5
-        } catch (e) {
+          setActivities(parsed.slice(0, 5))
+        } catch {
           setActivities(generateMockActivities())
         }
       } else {
@@ -55,50 +54,48 @@ export default function DashboardPage() {
 
     loadActivities()
 
-    // Update stats periodically (simulate real-time changes)
     const statsInterval = setInterval(() => {
       setStats(prev => ({
         ...prev,
         scheduledPosts: prev.scheduledPosts + Math.floor(Math.random() * 2),
         engagementRate: Number((prev.engagementRate + (Math.random() - 0.5) * 0.1).toFixed(1)),
       }))
-    }, 30000) // Every 30 seconds
+    }, 30000)
 
     return () => clearInterval(statsInterval)
   }, [])
 
-  // Generate mock activities
   const generateMockActivities = (): Activity[] => {
     const activities: Activity[] = [
       {
         id: '1',
         type: 'campaign',
         message: 'New EQS Electric Campaign created',
-        timestamp: Date.now() - 2 * 60 * 60 * 1000, // 2 hours ago
+        timestamp: Date.now() - 2 * 60 * 60 * 1000,
       },
       {
         id: '2',
         type: 'schedule',
         message: 'Instagram post scheduled for AMG GT',
-        timestamp: Date.now() - 5 * 60 * 60 * 1000, // 5 hours ago
+        timestamp: Date.now() - 5 * 60 * 60 * 1000,
       },
       {
         id: '3',
         type: 'content',
         message: 'S-Class luxury content updated',
-        timestamp: Date.now() - 1 * 24 * 60 * 60 * 1000, // 1 day ago
+        timestamp: Date.now() - 1 * 24 * 60 * 60 * 1000,
       },
       {
         id: '4',
         type: 'engagement',
         message: 'GLE campaign reached 10K impressions',
-        timestamp: Date.now() - 1.5 * 24 * 60 * 60 * 1000, // 1.5 days ago
+        timestamp: Date.now() - 1.5 * 24 * 60 * 60 * 1000,
       },
       {
         id: '5',
         type: 'content',
         message: 'Facebook Ad copy generated for C-Class',
-        timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000, // 2 days ago
+        timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000,
       },
     ]
 
@@ -106,7 +103,6 @@ export default function DashboardPage() {
     return activities
   }
 
-  // Add new activity programmatically
   const addActivity = (type: Activity['type'], message: string) => {
     const newActivity: Activity = {
       id: Date.now().toString(),
@@ -120,34 +116,32 @@ export default function DashboardPage() {
     localStorage.setItem('dashboard_activities', JSON.stringify(updated))
   }
 
-  // Format timestamp to relative time
   const formatTimestamp = (timestamp: number): string => {
     const seconds = Math.floor((Date.now() - timestamp) / 1000)
 
     if (seconds < 60) return 'Just now'
-    if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`
-    if (seconds < 604800) return `${Math.floor(seconds / 86400)} days ago`
-    return `${Math.floor(seconds / 604800)} weeks ago`
+    if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`
+    if (seconds < 604800) return `${Math.floor(seconds / 86400)}d ago`
+    return `${Math.floor(seconds / 604800)}w ago`
   }
 
-  // Get activity color based on type
   const getActivityColor = (type: Activity['type']): string => {
     switch (type) {
       case 'campaign':
-        return 'bg-primary'
+        return 'bg-amg'
       case 'engagement':
         return 'bg-green-500'
+      case 'schedule':
+        return 'bg-blue-500'
       default:
         return 'bg-muted-foreground'
     }
   }
 
-  // Refresh stats
   const handleRefresh = async () => {
     setIsRefreshing(true)
 
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 800))
 
     setStats(prev => ({
@@ -160,7 +154,6 @@ export default function DashboardPage() {
       engagementChange: Number((Math.random() * 2).toFixed(1)),
     }))
 
-    // Add refresh activity
     addActivity('engagement', 'Dashboard stats refreshed')
 
     setIsRefreshing(false)
@@ -172,6 +165,7 @@ export default function DashboardPage() {
       value: stats.activeCampaigns.toString(),
       change: `+${stats.campaignsChange} this week`,
       icon: TrendingUp,
+      color: "text-amg",
       onClick: () => router.push('/campaigns'),
     },
     {
@@ -179,6 +173,7 @@ export default function DashboardPage() {
       value: stats.scheduledPosts.toString(),
       change: "Next 7 days",
       icon: Calendar,
+      color: "text-blue-500",
       onClick: () => router.push('/calendar'),
     },
     {
@@ -186,6 +181,7 @@ export default function DashboardPage() {
       value: stats.contentPieces.toString(),
       change: `+${stats.contentChange} this month`,
       icon: FileText,
+      color: "text-amber-500",
       onClick: () => router.push('/copy-generator'),
     },
     {
@@ -193,18 +189,20 @@ export default function DashboardPage() {
       value: `${stats.engagementRate}%`,
       change: `+${stats.engagementChange}% vs last month`,
       icon: Users,
-      onClick: () => router.push('/analytics'),
+      color: "text-green-500",
+      onClick: () => router.push('/campaigns'),
     },
   ]
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-3xl font-bold font-semibold tracking-tight text-foreground">
             Marketing Dashboard
           </h1>
-          <p className="mt-1 text-muted-foreground">
+          <p className="mt-1 text-muted-foreground font-sans">
             Welcome to your Finiclasse command center.
           </p>
         </div>
@@ -213,20 +211,22 @@ export default function DashboardPage() {
           disabled={isRefreshing}
           variant="outline"
           size="sm"
-          className="gap-2"
+          className="gap-2 self-start sm:self-auto"
         >
           <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-          Refresh Stats
+          <span className="hidden sm:inline">Refresh Stats</span>
+          <span className="sm:hidden">Refresh</span>
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {/* Stats Grid */}
+      <div className="grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-4">
         {statCards.map((stat) => {
           const Icon = stat.icon
           return (
             <Card
               key={stat.title}
-              className="cursor-pointer hover:shadow-lg transition-shadow"
+              className="cursor-pointer group"
               onClick={stat.onClick}
               role="button"
               tabIndex={0}
@@ -238,14 +238,16 @@ export default function DashboardPage() {
               }}
             >
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground font-sans">
                   {stat.title}
                 </CardTitle>
-                <Icon className="h-4 w-4 text-muted-foreground" />
+                <div className={`p-2 rounded-lg bg-muted/50 ${stat.color}`}>
+                  <Icon className="h-4 w-4" />
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <div className="stat-value text-2xl sm:text-3xl">{stat.value}</div>
+                <p className="text-xs text-muted-foreground mt-1 font-sans truncate">
                   {stat.change}
                 </p>
               </CardContent>
@@ -254,46 +256,51 @@ export default function DashboardPage() {
         })}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      {/* Two Column Layout */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Quick Actions */}
         <Card>
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-amg" />
+              <CardTitle className="font-semibold">Quick Actions</CardTitle>
+            </div>
+            <CardDescription className="font-sans">
               Jump into your most common tasks
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-3">
             <Button
-              className="w-full justify-start"
+              className="w-full justify-start font-sans h-12"
               variant="outline"
               onClick={() => router.push('/copy-generator')}
             >
-              <FileText className="mr-2 h-4 w-4" />
+              <FileText className="mr-3 h-5 w-5 text-amber-500" />
               Generate New Copy
             </Button>
             <Button
-              className="w-full justify-start"
+              className="w-full justify-start font-sans h-12"
               variant="outline"
               onClick={() => router.push('/calendar')}
             >
-              <Calendar className="mr-2 h-4 w-4" />
+              <Calendar className="mr-3 h-5 w-5 text-blue-500" />
               Schedule Content
             </Button>
             <Button
-              className="w-full justify-start"
-              variant="default"
+              className="w-full justify-start font-sans h-12 bg-amg hover:bg-amg-600 text-white"
               onClick={() => router.push('/campaigns/new')}
             >
-              <TrendingUp className="mr-2 h-4 w-4" />
+              <TrendingUp className="mr-3 h-5 w-5" />
               Launch Campaign
             </Button>
           </CardContent>
         </Card>
 
+        {/* Recent Activity */}
         <Card>
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>
+            <CardTitle className="font-semibold">Recent Activity</CardTitle>
+            <CardDescription className="font-sans">
               Latest updates from your marketing workspace
             </CardDescription>
           </CardHeader>
@@ -302,10 +309,10 @@ export default function DashboardPage() {
               <div className="space-y-4">
                 {activities.map((activity) => (
                   <div key={activity.id} className="flex items-start gap-3">
-                    <div className={`h-2 w-2 mt-1.5 rounded-full ${getActivityColor(activity.type)}`} />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{activity.message}</p>
-                      <p className="text-xs text-muted-foreground">
+                    <div className={`h-2.5 w-2.5 mt-1.5 rounded-full flex-shrink-0 ${getActivityColor(activity.type)}`} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium font-sans truncate">{activity.message}</p>
+                      <p className="text-xs text-muted-foreground font-sans">
                         {formatTimestamp(activity.timestamp)}
                       </p>
                     </div>
@@ -313,7 +320,7 @@ export default function DashboardPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground text-center py-4">
+              <p className="text-sm text-muted-foreground text-center py-4 font-sans">
                 No recent activity yet
               </p>
             )}

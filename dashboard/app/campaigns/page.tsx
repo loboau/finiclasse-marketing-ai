@@ -176,7 +176,7 @@ export default function CampaignsPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-midnight">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground">
             Campaign Library
           </h1>
           <p className="mt-2 text-lg text-muted-foreground">
@@ -213,7 +213,7 @@ export default function CampaignsPage() {
                     variant={statusFilter === status ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setStatusFilter(status)}
-                    className={statusFilter === status ? 'bg-midnight text-white' : ''}
+                    className={statusFilter === status ? 'bg-foreground text-background' : ''}
                   >
                     {status}
                   </Button>
@@ -257,7 +257,7 @@ export default function CampaignsPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <CardTitle className="text-xl text-midnight group-hover:text-amg transition-colors">
+                      <CardTitle className="text-xl text-foreground group-hover:text-amg transition-colors">
                         {campaign.name}
                       </CardTitle>
                       <span
@@ -272,7 +272,7 @@ export default function CampaignsPage() {
                       {campaign.description}
                     </CardDescription>
                     <div className="flex flex-wrap items-center gap-2 mt-3">
-                      <span className="text-xs px-2.5 py-1 rounded-full bg-midnight text-white">
+                      <span className="text-xs px-2.5 py-1 rounded-full bg-foreground text-background">
                         {campaign.campaignType}
                       </span>
                       {campaign.targetModel && (
@@ -308,8 +308,8 @@ export default function CampaignsPage() {
               <CardContent>
                 <div className="grid grid-cols-3 gap-6">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-midnight/10">
-                      <Calendar className="h-5 w-5 text-midnight" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/10">
+                      <Calendar className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Date Range</p>

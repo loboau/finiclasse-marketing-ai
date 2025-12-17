@@ -209,7 +209,7 @@ export default function TemplateEditorPage() {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center max-w-xl mx-auto">
-        <h2 className="text-3xl font-bold text-midnight mb-2">Escolha um Template</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-2">Escolha um Template</h2>
         <p className="text-muted-foreground">
           Selecione o formato ideal para a sua publicação nas redes sociais
         </p>
@@ -221,7 +221,7 @@ export default function TemplateEditorPage() {
           onClick={() => setPlatformFilter(null)}
           className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
             platformFilter === null
-              ? 'bg-midnight text-white shadow-lg'
+              ? 'bg-foreground text-background shadow-lg'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
@@ -381,7 +381,7 @@ export default function TemplateEditorPage() {
                   <Upload className="h-8 w-8 text-gray-400" />
                 </div>
                 <div>
-                  <p className="font-semibold text-midnight">Arraste uma foto</p>
+                  <p className="font-semibold text-foreground">Arraste uma foto</p>
                   <p className="text-sm text-muted-foreground">ou clique para selecionar</p>
                 </div>
                 <p className="text-xs text-gray-400 bg-gray-100 inline-block px-3 py-1 rounded-full">
@@ -463,7 +463,7 @@ export default function TemplateEditorPage() {
         <div className="space-y-5">
           {selectedTemplate?.textFields.map((field, index) => (
             <div key={field.id} className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-semibold text-midnight">
+              <label className="flex items-center gap-2 text-sm font-semibold text-foreground">
                 <span className="w-6 h-6 bg-amg/10 text-amg rounded-lg flex items-center justify-center text-xs font-bold">
                   {index + 1}
                 </span>
@@ -559,7 +559,7 @@ export default function TemplateEditorPage() {
 
           <button
             onClick={exportAsJPG}
-            className="w-full flex items-center justify-between p-4 bg-gray-100 hover:bg-gray-200 text-midnight rounded-xl transition-all duration-200 hover:scale-[1.02] group"
+            className="w-full flex items-center justify-between p-4 bg-gray-100 hover:bg-gray-200 text-foreground rounded-xl transition-all duration-200 hover:scale-[1.02] group"
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -570,25 +570,25 @@ export default function TemplateEditorPage() {
                 <p className="text-xs text-gray-500">Menor tamanho</p>
               </div>
             </div>
-            <FileDown className="h-5 w-5 text-gray-400 group-hover:text-midnight transition-colors" />
+            <FileDown className="h-5 w-5 text-gray-400 group-hover:text-foreground transition-colors" />
           </button>
         </div>
 
         {/* Details card */}
         <div className="bg-gray-50 rounded-xl p-5 space-y-3">
-          <h3 className="font-semibold text-midnight">Detalhes do Post</h3>
+          <h3 className="font-semibold text-foreground">Detalhes do Post</h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-500">Template</span>
-              <span className="font-medium text-midnight">{selectedTemplate?.name}</span>
+              <span className="font-medium text-foreground">{selectedTemplate?.name}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Dimensões</span>
-              <span className="font-medium text-midnight">{selectedTemplate?.width} × {selectedTemplate?.height}px</span>
+              <span className="font-medium text-foreground">{selectedTemplate?.width} × {selectedTemplate?.height}px</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Plataforma</span>
-              <span className="font-medium text-midnight flex items-center gap-1.5">
+              <span className="font-medium text-foreground flex items-center gap-1.5">
                 {selectedTemplate && PLATFORM_CONFIG[selectedTemplate.platform]?.icon}
                 {selectedTemplate && PLATFORM_SIZES[selectedTemplate.platform].label}
               </span>
@@ -636,7 +636,7 @@ export default function TemplateEditorPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-midnight">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
             Template Editor
           </h1>
           <p className="mt-1 text-muted-foreground">

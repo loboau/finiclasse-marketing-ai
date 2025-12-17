@@ -123,3 +123,7 @@ docker-compose.override.yml
 *.cache
 .cache/
 .parcel-cache/
+
+# === Data Files (JSON Storage) ===
+# Do not commit test/development data
+data/*.json

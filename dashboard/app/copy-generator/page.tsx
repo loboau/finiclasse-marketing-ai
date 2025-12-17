@@ -344,7 +344,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-midnight">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground">
             Copy Generator
           </h1>
           <p className="mt-2 text-lg text-muted-foreground">
@@ -368,7 +368,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
             <History className="h-4 w-4" />
             Histórico
             {history.length > 0 && (
-              <span className="ml-1 px-1.5 py-0.5 bg-midnight text-white text-xs rounded-full">
+              <span className="ml-1 px-1.5 py-0.5 bg-foreground text-background text-xs rounded-full">
                 {history.length}
               </span>
             )}
@@ -425,7 +425,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                         onClick={() => setContentType(ct.id)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-all ${
                           contentType === ct.id
-                            ? 'bg-midnight text-white'
+                            ? 'bg-foreground text-background'
                             : 'bg-steel/10 hover:bg-steel/20'
                         }`}
                       >
@@ -452,7 +452,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                         onClick={() => setTone(t.id)}
                         className={`px-2 py-1.5 rounded-lg text-xs transition-all ${
                           tone === t.id
-                            ? 'bg-midnight text-white'
+                            ? 'bg-foreground text-background'
                             : 'bg-steel/10 hover:bg-steel/20'
                         }`}
                       >
@@ -475,7 +475,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                         onClick={() => setLanguage(l.id)}
                         className={`px-2 py-1.5 rounded-lg text-xs transition-all ${
                           language === l.id
-                            ? 'bg-midnight text-white'
+                            ? 'bg-foreground text-background'
                             : 'bg-steel/10 hover:bg-steel/20'
                         }`}
                       >
@@ -545,7 +545,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                     onClick={() => setProvider('groq')}
                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${
                       provider === 'groq'
-                        ? 'bg-midnight text-white'
+                        ? 'bg-foreground text-background'
                         : 'bg-steel/10 hover:bg-steel/20'
                     }`}
                   >
@@ -556,7 +556,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                     onClick={() => setProvider('gemini')}
                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${
                       provider === 'gemini'
-                        ? 'bg-midnight text-white'
+                        ? 'bg-foreground text-background'
                         : 'bg-steel/10 hover:bg-steel/20'
                     }`}
                   >
@@ -600,7 +600,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <CardTitle className={result ? 'text-midnight' : 'text-muted-foreground'}>
+                  <CardTitle className={result ? 'text-foreground' : 'text-muted-foreground'}>
                     Conteúdo Gerado
                   </CardTitle>
                   <CardDescription>
@@ -658,7 +658,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                       <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                         Headline
                       </label>
-                      <p className="text-xl font-semibold text-midnight">
+                      <p className="text-xl font-semibold text-foreground">
                         {result.content.headline}
                       </p>
                     </div>
@@ -696,7 +696,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                         {result.content.hashtags.map((tag, i) => (
                           <span
                             key={i}
-                            className="px-2 py-1 bg-midnight/5 rounded text-sm text-midnight"
+                            className="px-2 py-1 bg-foreground/5 rounded text-sm text-foreground"
                           >
                             #{tag.replace('#', '')}
                           </span>
@@ -783,11 +783,11 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                   className="p-4 border-2 rounded-lg text-left hover:border-amg transition-all group"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="p-2 bg-midnight/5 rounded-lg group-hover:bg-amg/10 transition-colors">
-                      <Icon className="h-5 w-5 text-midnight group-hover:text-amg transition-colors" />
+                    <div className="p-2 bg-foreground/5 rounded-lg group-hover:bg-amg/10 transition-colors">
+                      <Icon className="h-5 w-5 text-foreground group-hover:text-amg transition-colors" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-midnight group-hover:text-amg transition-colors">
+                      <h4 className="font-semibold text-foreground group-hover:text-amg transition-colors">
                         {template.name}
                       </h4>
                       <p className="text-sm text-muted-foreground mt-1">
@@ -799,7 +799,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                           {platforms.find(p => p.id === template.platform)?.label}
                         </span>
                         {template.model && (
-                          <span className="px-2 py-0.5 bg-midnight/5 rounded">
+                          <span className="px-2 py-0.5 bg-foreground/5 rounded">
                             {template.model}
                           </span>
                         )}
@@ -851,7 +851,7 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
                             </span>
                           )}
                         </div>
-                        <h4 className="font-semibold text-midnight line-clamp-1">
+                        <h4 className="font-semibold text-foreground line-clamp-1">
                           {item.content.headline || item.topic || 'Copy sem título'}
                         </h4>
                         <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
@@ -900,8 +900,8 @@ ${result.content.hashtags.map(h => `#${h.replace('#', '')}`).join(' ')}`;
               {/* Mock social media preview */}
               <div className="bg-white rounded-lg shadow-sm overflow-hidden">
                 <div className="p-3 border-b flex items-center gap-2">
-                  <div className="w-8 h-8 bg-midnight rounded-full flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">F</span>
+                  <div className="w-8 h-8 bg-foreground rounded-full flex items-center justify-center">
+                    <span className="text-background text-xs font-bold">F</span>
                   </div>
                   <div>
                     <p className="font-semibold text-sm">Finiclasse Mercedes-Benz</p>

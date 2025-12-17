@@ -848,12 +848,12 @@ export default function KnowledgePage() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'Sedan': return 'text-midnight';
+      case 'Sedan': return 'text-foreground';
       case 'SUV': return 'text-arrow';
       case 'Coupé': return 'text-purple-600';
       case 'AMG': return 'text-amg';
       case 'EQ': return 'text-green-600';
-      default: return 'text-midnight';
+      default: return 'text-foreground';
     }
   };
 
@@ -865,7 +865,7 @@ export default function KnowledgePage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight text-midnight">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground">
           Base de Conhecimento Mercedes-Benz
         </h1>
         <p className="mt-2 text-lg text-muted-foreground">
@@ -1033,7 +1033,7 @@ export default function KnowledgePage() {
                           <div className="mt-4 space-y-3 text-sm border-t pt-4">
                             <div>
                               <h4 className="font-semibold mb-2 flex items-center gap-2">
-                                <Settings className="h-4 w-4 text-midnight" />
+                                <Settings className="h-4 w-4 text-foreground" />
                                 Especificações Técnicas
                               </h4>
                               <div className="space-y-1 text-xs text-muted-foreground">
@@ -1047,7 +1047,7 @@ export default function KnowledgePage() {
 
                             <div>
                               <h4 className="font-semibold mb-2 flex items-center gap-2">
-                                <Users className="h-4 w-4 text-midnight" />
+                                <Users className="h-4 w-4 text-foreground" />
                                 Público-Alvo
                               </h4>
                               <p className="text-xs text-muted-foreground">{model.targetAudience}</p>
@@ -1057,7 +1057,7 @@ export default function KnowledgePage() {
                       </div>
 
                       <Button
-                        className="w-full bg-midnight hover:bg-midnight/90 text-white"
+                        className="w-full bg-foreground hover:bg-foreground/90 text-background"
                         onClick={() => handleModelClick(model)}
                       >
                         Ver Detalhes Completos
@@ -1099,7 +1099,7 @@ export default function KnowledgePage() {
                 {/* Specs Grid */}
                 <div>
                   <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                    <Settings className="h-5 w-5 text-midnight" />
+                    <Settings className="h-5 w-5 text-foreground" />
                     Especificações Técnicas
                   </h3>
                   <div className="grid grid-cols-2 gap-4 p-4 bg-slate-50 rounded-lg">
@@ -1133,7 +1133,7 @@ export default function KnowledgePage() {
                 {/* Features */}
                 <div>
                   <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-midnight" />
+                    <Sparkles className="h-5 w-5 text-foreground" />
                     Equipamentos e Tecnologias
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -1149,7 +1149,7 @@ export default function KnowledgePage() {
                 {/* Marketing Highlights */}
                 <div>
                   <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                    <Gauge className="h-5 w-5 text-midnight" />
+                    <Gauge className="h-5 w-5 text-foreground" />
                     Destaques de Marketing
                   </h3>
                   <div className="space-y-2">
@@ -1165,7 +1165,7 @@ export default function KnowledgePage() {
                 {/* Target Audience */}
                 <div>
                   <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                    <Users className="h-5 w-5 text-midnight" />
+                    <Users className="h-5 w-5 text-foreground" />
                     Público-Alvo
                   </h3>
                   <p className="text-sm p-4 bg-blue-50 rounded-lg border border-blue-200 text-blue-900">
